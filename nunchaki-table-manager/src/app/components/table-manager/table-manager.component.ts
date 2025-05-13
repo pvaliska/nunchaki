@@ -9,11 +9,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { NunchakuCardListComponent } from '../nunchaku-card-list/nunchaku-card-list.component';
 import { NunchakuService } from '../../services/nunchaku.service';
 import { Nunchaku } from '../../services/nunchaku.service';
 import { ShowOnDirtyOrTouchedErrorStateMatcher } from '../../utils/only-show-error-on-touch-or-dirty.matcher';
-import { ErrorStateMatcher } from '@angular/material/core';
 
 @Component({
   selector: 'app-nunchaku-manager',
@@ -28,8 +26,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
     MatProgressSpinnerModule,
     MatIconModule,
     MatTableModule,
-    MatToolbarModule,
-    NunchakuCardListComponent
+    MatToolbarModule
   ],
   templateUrl: './table-manager.component.html'
 })

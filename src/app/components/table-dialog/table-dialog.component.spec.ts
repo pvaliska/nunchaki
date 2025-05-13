@@ -1,18 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NunchakuDialogComponent } from './table-dialog.component';
 
-import { TableDialogComponent } from './table-dialog.component';
-
-describe('TableDialogComponent', () => {
-  let component: TableDialogComponent;
-  let fixture: ComponentFixture<TableDialogComponent>;
+describe('NunchakuDialogComponent', () => {
+  let component: NunchakuDialogComponent;
+  let fixture: ComponentFixture<NunchakuDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TableDialogComponent]
+      imports: [NunchakuDialogComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(TableDialogComponent);
+    fixture = TestBed.createComponent(NunchakuDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -20,4 +19,4 @@ describe('TableDialogComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-});
+}); 
