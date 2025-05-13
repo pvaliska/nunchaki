@@ -10,22 +10,17 @@
 
     <mat-form-field appearance="fill" class="full-width">
       <mat-label>Material</mat-label>
-      <input matInput formControlName="material" required>
-      <mat-error *ngIf="form.get('material')?.hasError('required')">Material is required</mat-error>
+      <input matInput formControlName="material">
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="full-width">
       <mat-label>Length (cm)</mat-label>
-      <input matInput type="number" formControlName="length" required>
-      <mat-error *ngIf="form.get('length')?.hasError('required')">Length is required</mat-error>
-      <mat-error *ngIf="form.get('length')?.hasError('min')">Length must be at least 1 cm</mat-error>
+      <input matInput type="number" formControlName="length">
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="full-width">
       <mat-label>Weight (g)</mat-label>
-      <input matInput type="number" formControlName="weight" required>
-      <mat-error *ngIf="form.get('weight')?.hasError('required')">Weight is required</mat-error>
-      <mat-error *ngIf="form.get('weight')?.hasError('min')">Weight must be at least 1 g</mat-error>
+      <input matInput type="number" formControlName="weight">
     </mat-form-field>
   </mat-dialog-content>
 

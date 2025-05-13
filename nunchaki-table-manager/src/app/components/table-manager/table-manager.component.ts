@@ -12,6 +12,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { NunchakuCardListComponent } from '../nunchaku-card-list/nunchaku-card-list.component';
 import { NunchakuService } from '../../services/nunchaku.service';
 import { Nunchaku } from '../../services/nunchaku.service';
+import { ShowOnDirtyOrTouchedErrorStateMatcher } from '../../utils/only-show-error-on-touch-or-dirty.matcher';
+import { ErrorStateMatcher } from '@angular/material/core';
 
 @Component({
   selector: 'app-nunchaku-manager',
@@ -35,6 +37,7 @@ export class NunchakuManagerComponent implements OnInit {
   nunchaku: Nunchaku[] = [];
   addForm: FormGroup;
   isLoading = false;
+  matcher = new ShowOnDirtyOrTouchedErrorStateMatcher();
 
   constructor(
     private nunchakuService: NunchakuService,
@@ -42,9 +45,9 @@ export class NunchakuManagerComponent implements OnInit {
   ) {
     this.addForm = this.fb.group({
       name: ['', Validators.required],
-      material: ['', Validators.required],
-      length: [null, [Validators.required, Validators.min(1)]],
-      weight: [null, [Validators.required, Validators.min(1)]]
+      material: [''],
+      length: [null],
+      weight: [null]
     });
   }
 
@@ -80,6 +83,8 @@ export class NunchakuManagerComponent implements OnInit {
         next: (response) => {
           this.nunchaku = [...this.nunchaku, response];
           this.addForm.reset();
+          this.addForm.markAsPristine();
+          this.addForm.markAsUntouched();
           this.isLoading = false;
         },
         error: (error) => {

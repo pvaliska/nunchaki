@@ -10,25 +10,20 @@
       <form [formGroup]="addForm" (ngSubmit)="onAddSubmit()" style="width: 100%; display: flex; flex-direction: column; gap: 14px;">
         <mat-form-field appearance="outline" style="width: 100%;">
           <mat-label>Name</mat-label>
-          <input matInput formControlName="name" required>
+          <input matInput formControlName="name" required [errorStateMatcher]="matcher">
           <mat-error *ngIf="addForm.get('name')?.hasError('required')">Name is required</mat-error>
         </mat-form-field>
         <mat-form-field appearance="outline" style="width: 100%;">
           <mat-label>Material</mat-label>
-          <input matInput formControlName="material" required>
-          <mat-error *ngIf="addForm.get('material')?.hasError('required')">Material is required</mat-error>
+          <input matInput formControlName="material">
         </mat-form-field>
         <mat-form-field appearance="outline" style="width: 100%;">
           <mat-label>Length (cm)</mat-label>
-          <input matInput type="number" formControlName="length" required>
-          <mat-error *ngIf="addForm.get('length')?.hasError('required')">Length is required</mat-error>
-          <mat-error *ngIf="addForm.get('length')?.hasError('min')">Length must be at least 1 cm</mat-error>
+          <input matInput type="number" formControlName="length">
         </mat-form-field>
         <mat-form-field appearance="outline" style="width: 100%;">
           <mat-label>Weight (g)</mat-label>
-          <input matInput type="number" formControlName="weight" required>
-          <mat-error *ngIf="addForm.get('weight')?.hasError('required')">Weight is required</mat-error>
-          <mat-error *ngIf="addForm.get('weight')?.hasError('min')">Weight must be at least 1 g</mat-error>
+          <input matInput type="number" formControlName="weight">
         </mat-form-field>
         <button mat-raised-button color="primary" type="submit" [disabled]="!addForm.valid || isLoading" style="margin-top: 10px; border-radius: 28px; width: 100%; font-weight: 700; font-size: 1.1rem; height: 48px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(33, 150, 243, 0.10); color: #fff;">
           <mat-icon>add</mat-icon>

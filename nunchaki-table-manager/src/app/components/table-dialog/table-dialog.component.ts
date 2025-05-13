@@ -35,9 +35,9 @@ export class NunchakuDialogComponent {
     this.dialogTitle = data.nunchaku ? 'Edit Nunchaku' : 'Add Nunchaku';
     this.form = this.fb.group({
       name: [data.nunchaku?.name || '', Validators.required],
-      material: [data.nunchaku?.material || '', Validators.required],
-      length: [data.nunchaku?.length || '', [Validators.required, Validators.min(1)]],
-      weight: [data.nunchaku?.weight || '', [Validators.required, Validators.min(1)]]
+      material: [data.nunchaku?.material || ''],
+      length: [data.nunchaku?.length ?? null],
+      weight: [data.nunchaku?.weight ?? null]
     });
   }
 
