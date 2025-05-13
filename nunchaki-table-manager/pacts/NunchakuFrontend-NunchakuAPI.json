@@ -4,6 +4,23 @@
   },
   "interactions": [
     {
+      "description": "a DELETE to remove a nunchaku",
+      "providerState": "provider has one nunchaku",
+      "request": {
+        "headers": {
+          "Accept": "application/json"
+        },
+        "method": "DELETE",
+        "path": "/nunchaku/1"
+      },
+      "response": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "status": 204
+      }
+    },
+    {
       "description": "a GET for the nunchaku list",
       "providerState": "provider has one nunchaku",
       "request": {
