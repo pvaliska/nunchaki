@@ -1,6 +1,9 @@
+/// <reference types="mocha" />
+/// <reference types="chai" />
+
 const { Pact } = require('@pact-foundation/pact');
 const axios = require('axios');
-const chai = require('chai');
+const { expect } = require('chai');
 
 // This test assumes you have @pact-foundation/pact and axios installed
 
@@ -15,7 +18,7 @@ describe('Nunchaku API Pact', () => {
     spec: 2
   });
 
-  before(function() {
+  before(function(this: Mocha.Context) {
     this.timeout(10000);
     return provider.setup();
   });
@@ -55,8 +58,8 @@ describe('Nunchaku API Pact', () => {
       length: 30,
       weight: 500
     });
-    chai.expect(postResponse.status).to.equal(201);
-    chai.expect(postResponse.data).to.deep.equal({
+    expect(postResponse.status).to.equal(201);
+    expect(postResponse.data).to.deep.equal({
       id: '1',
       name: 'Test Nunchaku',
       material: 'Wood',
@@ -94,8 +97,8 @@ describe('Nunchaku API Pact', () => {
     const getResponse = await axios.get('http://localhost:8888/nunchaku', {
       headers: { 'Accept': 'application/json' }
     });
-    chai.expect(getResponse.status).to.equal(200);
-    chai.expect(getResponse.data).to.deep.equal([
+    expect(getResponse.status).to.equal(200);
+    expect(getResponse.data).to.deep.equal([
       {
         id: '1',
         name: 'Test Nunchaku',
@@ -126,7 +129,7 @@ describe('Nunchaku API Pact', () => {
     const deleteResponse = await axios.delete('http://localhost:8888/nunchaku/1', {
       headers: { 'Accept': 'application/json' }
     });
-    chai.expect(deleteResponse.status).to.equal(204);
+    expect(deleteResponse.status).to.equal(204);
 
     await provider.verify();
   });

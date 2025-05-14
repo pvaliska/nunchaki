@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:nunchaki-table-manager": "node dist/nunchaki-table-manager/server/server.mjs",
-    "pact:test": "mocha -r ts-node/register tests/pact/pact-consumer.spec.ts"
+    "pact:test": "mocha -r ts-node/register --require ts-node/register/transpile-only --project tsconfig.pact.json tests/pact/pact-consumer.spec.ts"
   },
   "private": true,
   "dependencies": {
