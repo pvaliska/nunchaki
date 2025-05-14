@@ -33,6 +33,12 @@ print_section "Running Pact Tests"
 npm run pact:test
 check_status "Pact tests"
 
+# Copy frontend build to backend static directory
+print_section "Copying Frontend Build to Backend"
+mkdir -p ../nunchaki-backend/src/main/resources/static
+cp -r dist/nunchaki-table-manager/* ../nunchaki-backend/src/main/resources/static/
+check_status "Frontend copy to backend"
+
 # Return to root directory
 cd ..
 
