@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 
-import { Nunchaku } from '../../services/nunchaku.service';
+import { Nunchaku, NunchakuService } from '../../services/nunchaku.service';
 
 @Component({
   selector: 'app-nunchaku-dialog',
@@ -29,6 +29,7 @@ export class NunchakuDialogComponent {
 
   constructor(
     private fb: FormBuilder,
+    private nunchakuService: NunchakuService,
     public dialogRef: MatDialogRef<NunchakuDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { nunchaku?: Nunchaku }
   ) {
@@ -43,7 +44,14 @@ export class NunchakuDialogComponent {
 
   onSubmit(): void {
     if (this.form.valid) {
-      this.dialogRef.close(this.form.value);
+      const formData = this.form.value;
+      if (this.data.nunchaku) {
+        this.nunchakuService.updateNunchaku(this.data.nunchaku.id, formData)
+          .subscribe(result => this.dialogRef.close(result));
+      } else {
+        this.nunchakuService.createNunchaku(formData)
+          .subscribe(result => this.dialogRef.close(result));
+      }
     }
   }
 

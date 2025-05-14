@@ -11,7 +11,7 @@
           "Accept": "application/json"
         },
         "method": "DELETE",
-        "path": "/nunchaku/1"
+        "path": "/api/nunchaku/1"
       },
       "response": {
         "headers": {
@@ -28,7 +28,7 @@
           "Accept": "application/json"
         },
         "method": "GET",
-        "path": "/nunchaku"
+        "path": "/api/nunchaku"
       },
       "response": {
         "body": [
@@ -60,7 +60,7 @@
           "Content-Type": "application/json"
         },
         "method": "POST",
-        "path": "/nunchaku"
+        "path": "/api/nunchaku"
       },
       "response": {
         "body": {
