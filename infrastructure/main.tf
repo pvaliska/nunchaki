@@ -18,10 +18,38 @@ resource "docker_network" "nunchaki_network" {
 
 # Backend image
 resource "docker_image" "backend" {
-  name = "nunchaki-backend:v6"
+  name = "nunchaki-backend:v7"
   build {
     context = abspath("../nunchaki-backend")
     dockerfile = "Dockerfile"
+  }
+}
+
+# Load Balancer image
+resource "docker_image" "load_balancer" {
+  name = "nginx:alpine"
+}
+
+# Load Balancer container
+resource "docker_container" "load_balancer" {
+  name  = "nunchaki-lb"
+  image = docker_image.load_balancer.name
+  ports {
+    internal = 80
+    external = 80
+  }
+  networks_advanced {
+    name = docker_network.nunchaki_network.name
+  }
+  volumes {
+    host_path      = abspath("./nginx.conf")
+    container_path = "/etc/nginx/nginx.conf"
+  }
+  depends_on = [docker_container.backend]
+  log_driver = "json-file"
+  log_opts = {
+    max-size = "10m"
+    max-file = "3"
   }
 }
 

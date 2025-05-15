@@ -14,7 +14,7 @@ describe('Nunchaku API Pact', () => {
   const provider = new Pact({
     consumer: 'NunchakuFrontend',
     provider: 'NunchakuAPI',
-    port: 8080,
+    port: 9090,
     log: process.cwd() + '/logs/pact.log',
     dir: process.cwd() + '/pacts',
     logLevel: 'debug',

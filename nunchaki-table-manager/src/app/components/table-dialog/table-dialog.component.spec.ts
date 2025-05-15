@@ -6,7 +6,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { NunchakuDialogComponent } from './table-dialog.component';
 import { Nunchaku, NunchakuService } from '../../services/nunchaku.service';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../environments/test-environment';
 import { TEST_NUNCHAKU, TEST_NUNCHAKU_PAYLOAD, BASE_URL, API_PATHS, HTTP_RESPONSES } from '../../testing/test-data';
 
 describe('NunchakuDialogComponent', () => {
@@ -30,7 +30,8 @@ describe('NunchakuDialogComponent', () => {
       providers: [
         { provide: MatDialogRef, useValue: dialogRef },
         { provide: MAT_DIALOG_DATA, useValue: { nunchaku: null } },
-        NunchakuService
+        NunchakuService,
+        { provide: 'API_URL', useValue: environment.apiUrl },
       ]
     }).compileComponents();
 
@@ -70,7 +71,8 @@ describe('NunchakuDialogComponent', () => {
       providers: [
         { provide: MatDialogRef, useValue: dialogRef },
         { provide: MAT_DIALOG_DATA, useValue: { nunchaku: TEST_NUNCHAKU } },
-        NunchakuService
+        NunchakuService,
+        { provide: 'API_URL', useValue: environment.apiUrl },
       ]
     }).compileComponents();
 
@@ -122,7 +124,8 @@ describe('NunchakuDialogComponent', () => {
       providers: [
         { provide: MatDialogRef, useValue: dialogRef },
         { provide: MAT_DIALOG_DATA, useValue: { nunchaku: TEST_NUNCHAKU } },
-        NunchakuService
+        NunchakuService,
+        { provide: 'API_URL', useValue: environment.apiUrl }
       ]
     }).compileComponents();
 

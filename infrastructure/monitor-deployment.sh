@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Configuration
-URL="http://localhost:8080"
+URL="http://localhost:80"
 INTERVAL=0.1  # Check every 100ms
 TIMEOUT=1  # 1 second timeout for each request
 LOG_FILE="deployment-monitor.log"

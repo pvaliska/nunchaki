@@ -1,7 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment';
 
 export interface Nunchaku {
   id: string;
@@ -15,9 +14,14 @@ export interface Nunchaku {
   providedIn: 'root'
 })
 export class NunchakuService {
-  private readonly API_URL = `${environment.apiUrl}/nunchaku`;
+  private readonly API_URL: string;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    @Inject('API_URL') apiUrl: string
+  ) {
+    this.API_URL = `${apiUrl}/nunchaku`;
+  }
 
   getNunchaku(): Observable<Nunchaku[]> {
     return this.http.get<Nunchaku[]>(this.API_URL);

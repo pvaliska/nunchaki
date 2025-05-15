@@ -15,7 +15,7 @@ export const TEST_NUNCHAKU_PAYLOAD = {
   weight: TEST_NUNCHAKU.weight
 };
 
-export const BASE_URL = 'http://localhost:8080';
+export const BASE_URL = 'http://localhost:9090';
 
 export const API_PATHS = {
   NUNCHAKU: '/api/nunchaku',

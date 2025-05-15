@@ -7,6 +7,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { NunchakuManagerComponent } from './table-manager.component';
 import { NunchakuService } from '../../services/nunchaku.service';
 import { TEST_NUNCHAKU, BASE_URL, API_PATHS, HTTP_RESPONSES } from '../../testing/test-data';
+import { environment } from '../../../environments/test-environment';
 
 describe('NunchakuManagerComponent', () => {
   let component: NunchakuManagerComponent;
@@ -23,7 +24,10 @@ describe('NunchakuManagerComponent', () => {
         MatDialogModule,
         NunchakuManagerComponent
       ],
-      providers: [NunchakuService]
+      providers: [
+        NunchakuService,
+        { provide: 'API_URL', useValue: environment.apiUrl }
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(NunchakuManagerComponent);
