@@ -1,5 +1,6 @@
 /// <reference types="mocha" />
 /// <reference types="chai" />
+/// <reference types="node" />
 
 const { Pact, Matchers } = require('@pact-foundation/pact');
 const axios = require('axios');

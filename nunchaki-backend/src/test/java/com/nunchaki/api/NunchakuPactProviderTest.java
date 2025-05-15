@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.TestPropertySource;
@@ -20,7 +21,7 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Provider("NunchakuAPI")
 @PactFolder("../nunchaki-table-manager/pacts")
 @Testcontainers
@@ -32,6 +33,9 @@ import org.springframework.beans.factory.annotation.Autowired;
     "spring.datasource.hikari.validation-timeout=1000"
 })
 public class NunchakuPactProviderTest {
+
+    @LocalServerPort
+    private int port;
 
     @Container
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15-alpine");
@@ -58,7 +62,7 @@ public class NunchakuPactProviderTest {
 
     @BeforeEach
     void before(PactVerificationContext context) {
-        context.setTarget(new HttpTestTarget("localhost", 8080));
+        context.setTarget(new HttpTestTarget("localhost", port));
     }
 
     @State("provider has one nunchaku")
