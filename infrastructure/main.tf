@@ -10,7 +10,7 @@ terraform {
 variable "backend_server" {
   description = "Full backend server address (including port)"
   type        = string
-  default     = "nunchaki-backend-v8:8080"
+  default     = "nunchaki-backend-green:8080"
 }
 
 locals {
@@ -83,7 +83,7 @@ resource "null_resource" "reload_nginx" {
 }
 
 # Backend image
-resource "docker_image" "backend_v9" {
+resource "docker_image" "backend_blue" {
   name = "nunchaki-backend:v9"
   build {
     context = abspath("../nunchaki-backend")
@@ -92,12 +92,11 @@ resource "docker_image" "backend_v9" {
 }
 
 # Backend container
-resource "docker_container" "backend_v9" {
-  name  = "nunchaki-backend-v9"
-  image = docker_image.backend_v9.name
+resource "docker_container" "backend_blue" {
+  name  = "nunchaki-backend-blue"
+  image = docker_image.backend_blue.name
   ports {
     internal = 8080
-    external = 8080
   }
   networks_advanced {
     name = docker_network.nunchaki_network.name
@@ -109,7 +108,7 @@ resource "docker_container" "backend_v9" {
     "SPRING_DATASOURCE_PASSWORD=postgres",
     "SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.postgresql.Driver"
   ]
-  depends_on = [docker_container.database, docker_image.backend_v9]
+  depends_on = [docker_container.database, docker_image.backend_blue]
   log_driver = "json-file"
   log_opts = {
     max-size = "10m"
@@ -118,7 +117,7 @@ resource "docker_container" "backend_v9" {
 }
 
 # Backend image
-resource "docker_image" "backend_v8" {
+resource "docker_image" "backend_green" {
   name = "nunchaki-backend:v8"
   build {
     context = abspath("../nunchaki-backend")
@@ -127,12 +126,11 @@ resource "docker_image" "backend_v8" {
 }
 
 # Backend container
-resource "docker_container" "backend_v8" {
-  name  = "nunchaki-backend-v8"
-  image = docker_image.backend_v8.name
+resource "docker_container" "backend_green" {
+  name  = "nunchaki-backend-green"
+  image = docker_image.backend_green.name
   ports {
     internal = 8080
-    external = 8081
   }
   networks_advanced {
     name = docker_network.nunchaki_network.name
@@ -144,7 +142,7 @@ resource "docker_container" "backend_v8" {
     "SPRING_DATASOURCE_PASSWORD=postgres",
     "SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.postgresql.Driver"
   ]
-  depends_on = [docker_container.database, docker_image.backend_v8]
+  depends_on = [docker_container.database, docker_image.backend_green]
   log_driver = "json-file"
   log_opts = {
     max-size = "10m"
