@@ -4,7 +4,7 @@ events {
 
 http {
     upstream backend {
-        server nunchaki-backend-v8:8080;
+        server ${BACKEND_SERVER};
         keepalive 32;
     }
 
