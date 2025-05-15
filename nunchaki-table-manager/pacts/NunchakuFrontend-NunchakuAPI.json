@@ -11,7 +11,7 @@
           "Accept": "application/json"
         },
         "method": "DELETE",
-        "path": "/api/nunchaku/1"
+        "path": "/api/nunchaku/123e4567-e89b-12d3-a456-426614174000"
       },
       "response": {
         "headers": {
@@ -33,7 +33,7 @@
       "response": {
         "body": [
           {
-            "id": "1",
+            "id": "123e4567-e89b-12d3-a456-426614174000",
             "length": 30,
             "material": "Wood",
             "name": "Test Nunchaku",
@@ -42,6 +42,24 @@
         ],
         "headers": {
           "Content-Type": "application/json"
+        },
+        "matchingRules": {
+          "$.body[0].id": {
+            "match": "regex",
+            "regex": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+          },
+          "$.body[0].length": {
+            "match": "type"
+          },
+          "$.body[0].material": {
+            "match": "type"
+          },
+          "$.body[0].name": {
+            "match": "type"
+          },
+          "$.body[0].weight": {
+            "match": "type"
+          }
         },
         "status": 200
       }
@@ -64,7 +82,7 @@
       },
       "response": {
         "body": {
-          "id": "1",
+          "id": "123e4567-e89b-12d3-a456-426614174000",
           "length": 30,
           "material": "Wood",
           "name": "Test Nunchaku",
@@ -72,6 +90,24 @@
         },
         "headers": {
           "Content-Type": "application/json"
+        },
+        "matchingRules": {
+          "$.body.id": {
+            "match": "regex",
+            "regex": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+          },
+          "$.body.length": {
+            "match": "type"
+          },
+          "$.body.material": {
+            "match": "type"
+          },
+          "$.body.name": {
+            "match": "type"
+          },
+          "$.body.weight": {
+            "match": "type"
+          }
         },
         "status": 201
       }

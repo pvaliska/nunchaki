@@ -29,7 +29,7 @@ public class NunchakuController {
     }
     
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteNunchaku(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteNunchaku(@PathVariable String id) {
         nunchakuService.deleteNunchaku(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).header("Content-Type", "application/json").build();
     }
