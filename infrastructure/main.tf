@@ -84,7 +84,7 @@ resource "null_resource" "reload_nginx" {
 
 # Backend image
 resource "docker_image" "backend_blue" {
-  name = "nunchaki-backend:v9"
+  name = "nunchaki-backend:v10"
   build {
     context = abspath("../nunchaki-backend")
     dockerfile = "Dockerfile"
@@ -106,9 +106,10 @@ resource "docker_container" "backend_blue" {
     "SPRING_DATASOURCE_URL=jdbc:postgresql://${docker_container.database.name}:5432/nunchaki",
     "SPRING_DATASOURCE_USERNAME=postgres",
     "SPRING_DATASOURCE_PASSWORD=postgres",
-    "SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.postgresql.Driver"
+    "SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.postgresql.Driver",
+    "SPRING_KAFKA_BOOTSTRAP_SERVERS=nunchaki-kafka:9092"
   ]
-  depends_on = [docker_container.database, docker_image.backend_blue]
+  depends_on = [docker_container.database, docker_image.backend_blue, docker_container.kafka]
   log_driver = "json-file"
   log_opts = {
     max-size = "10m"
@@ -118,7 +119,7 @@ resource "docker_container" "backend_blue" {
 
 # Backend image
 resource "docker_image" "backend_green" {
-  name = "nunchaki-backend:v8"
+  name = "nunchaki-backend:v10"
   build {
     context = abspath("../nunchaki-backend")
     dockerfile = "Dockerfile"
@@ -140,9 +141,10 @@ resource "docker_container" "backend_green" {
     "SPRING_DATASOURCE_URL=jdbc:postgresql://${docker_container.database.name}:5432/nunchaki",
     "SPRING_DATASOURCE_USERNAME=postgres",
     "SPRING_DATASOURCE_PASSWORD=postgres",
-    "SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.postgresql.Driver"
+    "SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.postgresql.Driver",
+    "SPRING_KAFKA_BOOTSTRAP_SERVERS=nunchaki-kafka:9092"
   ]
-  depends_on = [docker_container.database, docker_image.backend_green]
+  depends_on = [docker_container.database, docker_image.backend_green, docker_container.kafka]
   log_driver = "json-file"
   log_opts = {
     max-size = "10m"
@@ -171,4 +173,50 @@ resource "docker_container" "database" {
     max-size = "10m"
     max-file = "3"
   }
+}
+
+# Zookeeper container
+resource "docker_container" "zookeeper" {
+  name  = "nunchaki-zookeeper"
+  image = "confluentinc/cp-zookeeper:7.3.0"
+  env = [
+    "ZOOKEEPER_CLIENT_PORT=2181",
+    "ZOOKEEPER_TICK_TIME=2000"
+  ]
+  networks_advanced {
+    name = docker_network.nunchaki_network.name
+  }
+  log_driver = "json-file"
+  log_opts = {
+    max-size = "10m"
+    max-file = "3"
+  }
+  restart = "unless-stopped"
+}
+
+# Kafka container
+resource "docker_container" "kafka" {
+  name  = "nunchaki-kafka"
+  image = "confluentinc/cp-kafka:7.3.0"
+  env = [
+    "KAFKA_BROKER_ID=1",
+    "KAFKA_ZOOKEEPER_CONNECT=nunchaki-zookeeper:2181",
+    "KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://nunchaki-kafka:9092",
+    "KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1",
+    "KAFKA_AUTO_CREATE_TOPICS_ENABLE=true"
+  ]
+  ports {
+    internal = 9092
+    external = 9092
+  }
+  networks_advanced {
+    name = docker_network.nunchaki_network.name
+  }
+  depends_on = [docker_container.zookeeper]
+  log_driver = "json-file"
+  log_opts = {
+    max-size = "10m"
+    max-file = "3"
+  }
+  restart = "unless-stopped"
 }
