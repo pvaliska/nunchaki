@@ -155,7 +155,7 @@ resource "docker_container" "backend_green" {
 # Database container
 resource "docker_container" "database" {
   name  = "nunchaki-db"
-  image = "postgres:15-alpine"
+  image = "postgres:11-alpine"
   env = [
     "POSTGRES_DB=nunchaki",
     "POSTGRES_USER=postgres",
