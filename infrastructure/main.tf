@@ -17,10 +17,6 @@ locals {
   timestamp = formatdate("YYYYMMDDhhmmss", timestamp())
 }
 
-provider "docker" {
-  host = "npipe:////./pipe/docker_engine"
-}
-
 # Create a network for the application
 resource "docker_network" "nunchaki_network" {
   name = "nunchaki-network"
@@ -57,11 +53,6 @@ resource "docker_container" "load_balancer" {
   depends_on = [
     local_file.nginx_conf
   ]
-  log_driver = "json-file"
-  log_opts = {
-    max-size = "10m"
-    max-file = "3"
-  }
   restart = "unless-stopped"
 }
 
@@ -110,11 +101,6 @@ resource "docker_container" "backend_blue" {
     "SPRING_KAFKA_BOOTSTRAP_SERVERS=nunchaki-kafka:9092"
   ]
   depends_on = [docker_container.database, docker_image.backend_blue, docker_container.kafka]
-  log_driver = "json-file"
-  log_opts = {
-    max-size = "10m"
-    max-file = "3"
-  }
 }
 
 # Backend image
@@ -145,11 +131,6 @@ resource "docker_container" "backend_green" {
     "SPRING_KAFKA_BOOTSTRAP_SERVERS=nunchaki-kafka:9092"
   ]
   depends_on = [docker_container.database, docker_image.backend_green, docker_container.kafka]
-  log_driver = "json-file"
-  log_opts = {
-    max-size = "10m"
-    max-file = "3"
-  }
 }
 
 # Database container
@@ -168,11 +149,6 @@ resource "docker_container" "database" {
   networks_advanced {
     name = docker_network.nunchaki_network.name
   }
-  log_driver = "json-file"
-  log_opts = {
-    max-size = "10m"
-    max-file = "3"
-  }
 }
 
 # Zookeeper container
@@ -185,11 +161,6 @@ resource "docker_container" "zookeeper" {
   ]
   networks_advanced {
     name = docker_network.nunchaki_network.name
-  }
-  log_driver = "json-file"
-  log_opts = {
-    max-size = "10m"
-    max-file = "3"
   }
   restart = "unless-stopped"
 }
@@ -213,10 +184,5 @@ resource "docker_container" "kafka" {
     name = docker_network.nunchaki_network.name
   }
   depends_on = [docker_container.zookeeper]
-  log_driver = "json-file"
-  log_opts = {
-    max-size = "10m"
-    max-file = "3"
-  }
   restart = "unless-stopped"
 }
